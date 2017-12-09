@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>教务系统之我有我的范</title>
+    <style>
+        html,body {
+            width: 100%;
+        }
+        body {
+            background: url("./img/poly_bg.png");
+        }
+        #container {
+            width: 100%;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .paper {
+            background: white;
+            box-shadow: 3px 3px 6px #999;
+            border-radius: 8px;
+            height: 300px;
+            width: 500px;
+            /* text-align: center; */
+            /* display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center; */
+        }
+        input{
+            border: 1px solid #ccc;
+            padding: 7px 0px;
+            border-radius: 3px;
+            padding-left:5px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
+        }
+        input:focus{
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+        }
+
+        .rounded {
+            border-radius: 10px;
+        }
+
+        /* Colors for .btn and .btn-two */
+        .btn.blue{background-color: #7fb1bf;}
+        .btn.green{background-color: #9abf7f;}
+        .btn.red{background-color: #fa5a5a;}
+        .btn.purple{background-color: #cb99c5;}
+        .btn.cyan{background-color: #7fccde;}
+        .btn.yellow{background-color: #f0d264;}
+
+        /* default button style */
+        .btn {
+            position: relative;
+            border: 0;
+            padding: 10px 25px;
+            display: inline-block;
+            text-align: center;
+            color: white;
+            text-decoration:none;
+            font-family: "微软雅黑";
+        }
+        .btn:active {
+            top: 4px;
+        }
+
+        /* button colors*/
+        .btn.blue {box-shadow: 0px 4px #74a3b0;}
+        .btn.blue:active {box-shadow: 0 0 #74a3b0; background-color: #709CA8;}
+
+        .btn.green {box-shadow: 0px 4px 0px #87a86f;}
+        .btn.green:active {box-shadow: 0 0 #87a86f; background-color: #87a86f;}
+
+        .btn.red {box-shadow:0px 4px 0px #E04342;}
+        .btn.red:active {box-shadow: 0 0 #ff4c4b; background-color: #ff4c4b;}
+
+        .btn.purple {box-shadow:0px 4px 0px #AD83A8;}
+        .btn.purple:active {box-shadow: 0 0 #BA8CB5; background-color: #BA8CB5;}
+
+        .btn.cyan {box-shadow:0px 4px 0px #73B9C9;}
+        .btn.cyan:active {box-shadow: 0 0 #73B9C9; background-color: #70B4C4;}
+
+        .btn.yellow {box-shadow:0px 4px 0px #D1B757;}
+        .btn.yellow:active {box-shadow: 0 0 #ff4c4b; background-color: #D6BB59;}
+
+        #user-input {
+            width: 300px;
+            margin: 90px auto 30px auto;
+            display: flex;
+            justify-content: center;
+
+        }
+        #password-input,#operation {
+            width: 300px;
+            margin: 30px auto;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+<div id="container">
+    <div class="paper">
+        <div id="user-input">
+            <input type="text" name="user" placeholder="请输入账号"/><br>
+        </div>
+        <div id="password-input">
+            <input type="password" name="password" placeholder="请输入密码"/><br>
+        </div>
+        <div id="operation">
+            <a href="#" class="btn blue rounded" style="margin-right: 38px;">登陆</a>
+            <a href="#" class="btn blue rounded">注册</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
