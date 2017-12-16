@@ -15,7 +15,7 @@
     String msg =""; //交互信息
     String js_statement = ""; //动态生成js语句
     StringBuilder table = new StringBuilder(""); //课程表格
-    Integer sid = 6; //当前登录的管理员id
+    String sid = 6; //当前登录的管理员id
     String fscno="";String fscname="";String fsweekday="";String fsstime="";String fsetime="";String fstotal="";String fsavail="";String fscid = "";
     String name="用户名"; String sno="学号/工号"; String mail="邮箱地址";//获得信息
     String ima="img\\default_avatar.jpg";

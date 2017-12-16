@@ -14,7 +14,7 @@
             + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&&useSSL=false";
     String msg ="";
     StringBuilder table = new StringBuilder("");
-    Integer sid = 16352000; //当前登录的学生id
+    String sid = 16352000; //当前登录的学生id
     String name="用户名"; String sno="学号/工号"; String mail="邮箱地址";//获得信息
     String ima="img\\default_avatar.jpg";
         /* ------- */
@@ -28,7 +28,7 @@
 
         /* --   退课 将记录从sc关系表中删除  -- */
         if(request.getMethod().equalsIgnoreCase("post")){
-            String sql_delete = String.format("delete from sc where sno=%d and cno=%d ",sid,Integer.parseInt(request.getParameter("idcno")));
+            String sql_delete = String.format("delete from sc where sno=%s and cno=%d ",sid,Integer.parseInt(request.getParameter("idcno")));
             int cnt = 0;
             cnt = stmt.executeUpdate(sql_delete);
             if (cnt>0){msg = "退课成功";}

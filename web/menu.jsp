@@ -10,7 +10,7 @@
 <%
     request.setCharacterEncoding("utf-8");
     String connectString = "jdbc:mysql://172.18.187.234:53306/jwxt"
-            + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
+            + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&&useSSL=false";
     String msg = ""; //交互信息
     String name="用户名"; String sno="学号/工号"; String mail="邮箱地址";//获得信息
     String ima="img\\default_avatar.jpg";

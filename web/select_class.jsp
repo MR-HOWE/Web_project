@@ -14,7 +14,7 @@
             + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&&useSSL=false";
     String msg ="";
     StringBuilder table = new StringBuilder("");
-    Integer sid = 16352000; //当前登录的学生学号
+    String sid = 16352000; //当前登录的学生学号
     String name="用户名"; String sno="学号/工号"; String mail="邮箱地址";//获得信息
     String ima="img\\default_avatar.jpg";//todo
     try{
@@ -25,7 +25,7 @@
 
         /* --   选课 将记录加入sc关系基本表  -- */
         if(request.getMethod().equalsIgnoreCase("post")){
-            String sql_select = String.format("insert into sc(sno,cno) values(%d,%d) ",sid,Integer.parseInt(request.getParameter("idcno")));
+            String sql_select = String.format("insert into sc(sno,cno) values(%s,%d) ",sid,Integer.parseInt(request.getParameter("idcno")));
             int cnt = 0;
             cnt = stmt.executeUpdate(sql_select);
             if (cnt>0){msg = "选课成功";}
