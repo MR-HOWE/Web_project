@@ -10,11 +10,17 @@
 <%@ page import="static java.lang.Integer.parseInt" %>
 <%
     request.setCharacterEncoding("utf-8");
+    Object user = session.getAttribute("user");
+    if(user == null){
+        System.out.println("not login");
+        response.sendRedirect("/index.html");
+        return;
+    }
     String connectString = "jdbc:mysql://172.18.187.234:53306/jwxt"
             + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&&useSSL=false";
     String msg ="";
     StringBuilder table = new StringBuilder("");
-    String sid = 16352000; //当前登录的学生id
+    String sid = session.getAttribute("user").toString(); //当前登录的学生id
     String name="用户名"; String sno="学号/工号"; String mail="邮箱地址";//获得信息
     String ima="img\\default_avatar.jpg";
         /* ------- */
@@ -28,7 +34,7 @@
 
         /* --   退课 将记录从sc关系表中删除  -- */
         if(request.getMethod().equalsIgnoreCase("post")){
-            String sql_delete = String.format("delete from sc where sno=%s and cno=%d ",sid,Integer.parseInt(request.getParameter("idcno")));
+            String sql_delete = String.format("delete from sc where sno='%s' and cno=%d ",sid,Integer.parseInt(request.getParameter("idcno")));
             int cnt = 0;
             cnt = stmt.executeUpdate(sql_delete);
             if (cnt>0){msg = "退课成功";}
@@ -37,7 +43,8 @@
         /*  -- 显示个人已选课程于UI界面上 -- */
         //查询结果 (该学生已选的课程)
         String sql = String.format("select distinct course.* from course " +
-                "where course.cno in (select sc.cno from sc where sc.sno="+ sid +")");
+                "where course.cno in (select sc.cno from sc where sc.sno='"+ sid +"')");
+        System.out.println("sda: "+sql);
         ResultSet rs=stmt.executeQuery(sql);
 
         /*   ----------------------------------   */
@@ -117,7 +124,7 @@
         Statement stmt = con.createStatement();
 
         //查询操作
-        String sql_query = String.format("select user.* from user where sno="+sid);
+        String sql_query = String.format("select user.* from user where sno='"+sid+"'");
         ResultSet rs_query = stmt.executeQuery(sql_query);
         //获得相应数据
         if(rs_query.next()){
@@ -308,8 +315,12 @@
             <input type="hidden" name="id" value=<%=sno%>>
             <p><input type="file" name="file" size=5></p>
             <p><input id="okbtn" type="submit" name="image" value="确定"></p>
+            <input type="hidden" name="url" value="show_class.jsp">
         </form>
     </div>
+    <form action="logout.jsp" method="post">
+        <input class="outer" type="submit" name="logout" value="注销">
+    </form>
 </div>
 
 <div id="board">

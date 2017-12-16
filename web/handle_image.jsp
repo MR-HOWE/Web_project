@@ -13,7 +13,7 @@
 <%@ page import="java.sql.*" %>
 <%
     request.setCharacterEncoding("utf-8");
-    String url = request.getRequestURL().toString();
+    String url = ""; //来源地址的URL
     String fileName = ""; //完整路径
     String picName = ""; //图片名
     String ID = ""; //上传用户的sno
@@ -62,7 +62,7 @@
         }
     }
     //返回用户所在页面
-    System.out.println(url);
+    url = ID;
     response.sendRedirect(url); //用户不会察觉到发生了变化
 %>
 <html>

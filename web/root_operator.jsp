@@ -9,13 +9,21 @@
 <%@ page import="java.util.*,java.sql.*"%>
 <%@ page import="static java.lang.Integer.parseInt" %>
 <%
+    Object user = session.getAttribute("user");
+    if(user == null){
+        System.out.println("not login");
+        response.sendRedirect("/index.html");
+        return;
+    }
+
     request.setCharacterEncoding("utf-8");
     String connectString = "jdbc:mysql://172.18.187.234:53306/jwxt"
             + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&&useSSL=false";
     String msg =""; //交互信息
     String js_statement = ""; //动态生成js语句
     StringBuilder table = new StringBuilder(""); //课程表格
-    String sid = 6; //当前登录的管理员id
+    String sid = session.getAttribute("user").toString(); //当前登录的管理员id
+    System.out.println(sid);
     String fscno="";String fscname="";String fsweekday="";String fsstime="";String fsetime="";String fstotal="";String fsavail="";String fscid = "";
     String name="用户名"; String sno="学号/工号"; String mail="邮箱地址";//获得信息
     String ima="img\\default_avatar.jpg";
@@ -122,7 +130,7 @@
         Statement stmt = con.createStatement();
 
         //查询操作
-        String sql_query = String.format("select user.* from user where sno="+sid);
+        String sql_query = String.format("select user.* from user where sno='"+sid+"'");
         ResultSet rs_query = stmt.executeQuery(sql_query);
         //获得相应数据
         if(rs_query.next()){
@@ -301,8 +309,12 @@
                 <input type="hidden" name="id" value=<%=sno%>>
                 <p><input type="file" name="file" size=5></p>
                 <p><input id="okbtn" type="submit" name="image" value="确定"></p>
+                <input type="hidden" name="url" value="root_operator.jsp">
             </form>
         </div>
+        <form action="logout.jsp" method="post">
+            <input class="outer" type="submit" name="logout" value="注销">
+        </form>
     </div>
 
     <div id="board">

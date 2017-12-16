@@ -9,12 +9,19 @@
 <%@ page import="java.util.*,java.sql.*"%>
 <%
     request.setCharacterEncoding("utf-8");
+    Object user = session.getAttribute("user");
+    if(user == null){
+        System.out.println("not login");
+        response.sendRedirect("/index.html");
+        return;
+    }
+
     String connectString = "jdbc:mysql://172.18.187.234:53306/jwxt"
             + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&&useSSL=false";
     String msg = ""; //交互信息
     String name="用户名"; String sno="学号/工号"; String mail="邮箱地址";//获得信息
     String ima="img\\default_avatar.jpg";
-    String sid = "16352000"; //用户名
+    String sid = session.getAttribute("user").toString();//用户名
     try {
         //连接数据库
         Class.forName("com.mysql.jdbc.Driver");
@@ -22,7 +29,7 @@
         Statement stmt = con.createStatement();
 
         //查询操作
-        String sql_query = String.format("select user.* from user where sno="+sid);
+        String sql_query = String.format("select user.* from user where sno='"+sid+"'");
         ResultSet rs_query = stmt.executeQuery(sql_query);
         //获得相应数据
         if(rs_query.next()){
@@ -163,8 +170,12 @@
                 <input type="hidden" name="id" value=<%=sno%>>
                 <p><input type="file" name="file" size=5></p>
                 <p><input id="okbtn" type="submit" name="image" value="确定"></p>
+                <input type="hidden" name="url" value="menu.jsp">
             </form>
         </div>
+        <form action="logout.jsp" method="post">
+            <input class="outer" type="submit" name="logout" value="注销">
+        </form>
     </div>
         
     <div id="board">
@@ -185,9 +196,6 @@
             </ul>
         </div>
         <ul id="button">
-            <li><i class="fa fa-user-o" aria-hidden="true"></i>
-                <a href="root_operator.jsp">管理员</a>
-            </li>
             <li><i class="fa fa-search" aria-hidden="true"></i>
                 <a href="show_class.jsp">查课</a>
             </li>

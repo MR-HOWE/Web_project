@@ -54,6 +54,10 @@
     if(realPw.equals(password)){
         if(admin == 1){
             out.write(Admin);
+            session.setAttribute("user",user);
+            session.setAttribute("image",image);
+            session.setAttribute("name",name);
+            session.setAttribute("email",email);
             return;
         } else {
             out.write(success);
