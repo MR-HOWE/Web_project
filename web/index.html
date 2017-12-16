@@ -2,7 +2,7 @@
 <html lang="cn">
 <head>
     <meta charset="UTF-8">
-    <title>教务系统之我有我的范</title>
+    <title>教务系统</title>
     <style>
         html,body {
             width: 100%;
@@ -45,9 +45,8 @@
             border-color: #66afe9;
             outline: 0;
             -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
         }
-
         .rounded {
             border-radius: 10px;
         }
@@ -96,10 +95,9 @@
 
         #user-input {
             width: 300px;
-            margin: 90px auto 30px auto;
+            margin: 50px auto 30px auto;
             display: flex;
             justify-content: center;
-
         }
         #password-input,#operation {
             width: 300px;
@@ -107,23 +105,426 @@
             display: flex;
             justify-content: center;
         }
+
+        dialog {
+            visibility: hidden;
+            transform: scale(0.1);
+            transition: transform 200ms;
+            border: none;
+            box-shadow: 3px 3px 6px #999,-3px 0px 6px #999;
+            border-radius: 8px;
+            height: 500px;
+            width: 500px;
+            box-sizing: border-box;
+            padding: 0;
+        }
+
+        dialog.dialog-scale {
+            visibility: visible;
+            transform: scale(1);
+        }
+        h2,h3 {
+            padding: 12px 20px;
+            color: #fff;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            background-color: #0B75A5;
+            font-weight: 400;
+            margin: 0;
+            text-align: center;
+            font-family: "Microsoft YaHei UI";
+        }
+        h4 {
+            text-align: center;
+            font-weight: 400;
+            margin: 15px auto;
+        }
+        .toast {
+            height: 100px;
+            width: 200px;
+            z-index: 100;
+            /*position: relative;*/
+            /*top:-500px;*/
+            /*left: -400px;*/
+        }
+        .attention {
+            background-color: #FF6633;
+        }
+        .top_input_layout {
+            width: 300px;
+            margin: 50px auto 30px auto;
+            display: flex;
+            justify-content: center;
+        }
+        .input_layout {
+            width: 300px;
+            margin: 30px auto;
+            display: flex;
+            justify-content: center;
+        }
+        .icon {
+            width: 25px;
+            height: 25px;
+            position: relative;
+            left: -10px;
+            top: 3px;
+        }
+
+        @keyframes k-loadingO {
+            0%,100% {
+                transform:translate(0)
+            }
+            25% {
+                transform:translate(160%)
+            }
+            50% {
+                transform:translate(160%,160%)
+            }
+            75% {
+                transform:translate(0,160%)
+            }
+        }
+        .ball {
+
+            border:0;
+            margin:0;
+            width:40px;
+            height:40px;
+            position:absolute;
+            border-radius:50%;
+            animation:k-loadingO 2s ease infinite;
+        }
+        .balla {
+            background:#19A68C;
+            animation-delay:-1.5s
+        }
+        .ballb {
+            background:#F63D3A;
+            animation-delay:-1s
+        }
+        .ballc {
+            background:#FDA543;
+            animation-delay:-0.5s
+        }
+        .balld {
+            background:#193B48
+        }
+        .progress {
+            visibility: hidden;
+            position: relative;
+            left: -55px;
+            top: -200px;
+        }
+        .progress.progress_show {
+            visibility: visible;
+        }
     </style>
+
 </head>
 
 <body>
 <div id="container">
     <div class="paper">
+        <h2>教务系统</h2>
         <div id="user-input">
-            <input type="text" name="user" placeholder="请输入账号"/><br>
+            <img src="img/user_icon.png" class="icon">
+            <input id="user" type="text" name="user" placeholder="请输入账号"/><br>
         </div>
         <div id="password-input">
-            <input type="password" name="password" placeholder="请输入密码"/><br>
+            <img src="img/password_icon.png" class="icon">
+            <input id="password" type="password" name="password" placeholder="请输入密码"/><br>
         </div>
         <div id="operation">
-            <a href="#" class="btn blue rounded" style="margin-right: 38px;">登陆</a>
-            <a href="#" class="btn blue rounded">注册</a>
+            <a href="#" class="btn blue rounded" style="margin-right: 38px;" onclick="login()">登陆</a>
+            <a id="register" href="#" class="btn blue rounded"  >注册</a>
         </div>
     </div>
+    <div style="position: relative"></div>
+    <div class="progress" id="progress">
+        <div class="ball balla" ></div>
+        <div class="ball ballb" ></div>
+        <div class="ball ballc" ></div>
+        <div class="ball balld" ></div>
+    </div>
 </div>
+<dialog id="dialog" >
+    <h3>用户注册</h3>
+    <div id="content">
+        <div class="top_input_layout">
+            <img src="img/user_icon.png" class="icon">
+            <input id="reg_user" type="text" name="user" placeholder="请输入账号"/><br>
+        </div>
+        <div class="input_layout">
+            <img src="img/password_icon.png" class="icon">
+            <input id="reg_pw" type="password" name="user" placeholder="请输入密码"/><br>
+        </div>
+        <div class="input_layout">
+            <img src="img/password_icon.png" class="icon">
+            <input id="reg_pw2" type="password" name="user" placeholder="再次确认密码"/><br>
+        </div>
+        <div class="input_layout">
+            <img src="img/email_icon.png" class="icon">
+            <input id="reg_email" type="email" name="user" placeholder="请输入邮箱"/><br>
+        </div>
+        <div class="input_layout">
+            <img src="img/name_icon.png" class="icon">
+            <input id="reg_name" type="text" name="user" placeholder="请输入姓名"/><br>
+        </div>
+        <div class="input_layout">
+            <a id="confirm_register_btn" href="#" class="btn blue rounded" style="margin-right: 38px;">确定</a>
+            <a id="cancel_dialog" href="#" class="btn blue rounded">取消</a>
+        </div>
+    </div>
+</dialog>
+<dialog id="dialog2" class="toast">
+    <h3 class="attention">请注意</h3>
+    <h4 id="toast_content">这是一个全局toast提示框</h4>
+</dialog>
+
 </body>
+<script type="text/javascript">
+    // 全局元素
+    var XmlHttpRequest;
+    var XmlHttpRequest2;
+    var register_btn = document.getElementById("register");
+    var dialog = document.getElementById("dialog");
+    var dialog2 = document.getElementById("dialog2");
+    var cancel_dialog_btn = document.getElementById("cancel_dialog");
+    var confirm_register_btn = document.getElementById("confirm_register_btn");
+    var reg_user = document.getElementById("reg_user");
+    var reg_pw = document.getElementById("reg_pw");
+    var reg_pw2 = document.getElementById("reg_pw2");
+    var reg_email = document.getElementById("reg_email");
+    var reg_name = document.getElementById("reg_name");
+    var userInput = document.getElementById("user");
+    var pwInput = document.getElementById("password");
+    var toast_content = document.getElementById("toast_content");
+    var progress = document.getElementById("progress");
+
+    // 全局方法
+    var toast_transition;
+    var toast_time;
+    function showToast(content) {
+        toast_content.innerHTML = content;
+        dialog2.showModal();
+        toast_transition = setTimeout(function() {
+            addClass(dialog2,'dialog-scale');
+        }, 0.5);
+        toast_time = setTimeout(function() {
+            dialog2.close();
+            removeClass(dialog2,'dialog-scale');
+            clearTimeout(toast_transition);
+            clearTimeout(toast_time);
+        }, 1000);
+    }
+
+    function hasClass(obj, cls) {
+        return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+    }
+
+    function addClass(obj, cls) {
+        if (!this.hasClass(obj, cls)) obj.className += " " + cls;
+    }
+
+    function removeClass(obj, cls) {
+        if (hasClass(obj, cls)) {
+            var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+            obj.className = obj.className.replace(reg, ' ');
+        }
+    }
+
+    function createXMLHttpRequest() {
+        var xmlHttp;
+        if (window.XMLHttpRequest) {
+            xmlHttp = new XMLHttpRequest();
+            if (xmlHttp.overrideMimeType)
+                xmlHttp.overrideMimeType('text/xml');
+        } else if (window.ActiveXObject) {
+            try {
+                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+                try {
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (e) {
+                }
+            }
+        }
+        return xmlHttp;
+    }
+
+    // 按钮绑定
+    register_btn.addEventListener("click",register);
+    cancel_dialog_btn.addEventListener("click",cancel_dialog);
+    confirm_register_btn.addEventListener("click",confirm_register);
+
+    // 登陆相关
+    function login(){
+        var user = userInput.value;
+        var password = pwInput.value;
+        console.log("user: " + user);
+        console.log("pw: " + password);
+
+        //如果输入框中的值为空，那么弹窗提示，并且让该输入框获得焦点
+        if(user  === ""){
+            // alert("用户名不能为空！");
+            showToast("用户名不能为空！");
+            userInput.focus();
+            // userInput.style.backgroundColor="rgba(255,102,51,0.5)";
+            return;
+        }
+        if(password  === ""){
+            // alert("密码不能为空！");
+            showToast("密码不能为空！");
+            pwInput.focus();
+            return;
+        }
+        addClass(progress,'progress_show');
+
+        var param = "user=" + user + "&password=" + password;
+
+        //不为空时，使用Ajax请求向后台发送信息，验证该用户名是否可用
+        //get请求字符串
+        var url="login.jsp";
+        //调用方法创建XMLHttpRequest对象
+        XmlHttpRequest = createXMLHttpRequest();
+        //设置回调函数
+        XmlHttpRequest.onreadystatechange=login_finish;
+        //初始化xmlhttprequest
+        XmlHttpRequest.open("POST",url,true);
+        XmlHttpRequest.setRequestHeader("Content-Type",
+            "application/x-www-form-urlencoded");
+        //发送请求
+        XmlHttpRequest.send(param);
+    }
+
+    const NoUser = "0";
+    const WrongPassword = "1";
+    const Admin = "2";
+    const success = "3";
+    //登陆回调函数
+    function login_finish(){
+        removeClass(progress,'progress_show');
+        if(XmlHttpRequest.readyState === 4&& XmlHttpRequest.status === 200){
+            var result = XmlHttpRequest.responseText;
+            console.log("result:" + result);
+            switch (result){
+                case NoUser:
+                    showToast("该用户不存在!");
+                    break;
+                case WrongPassword:
+                    showToast("密码错误!");
+                    break;
+                case Admin:
+                    console.log("asdgobsadg");
+                    window.location.href='root_operator.jsp';
+                    break;
+                case success:
+                    window.location.href='menu.jsp';
+                    break;
+            }
+        }
+    }
+
+    // 注册相关
+    function checkEmail(email){         //验证邮箱地址
+        var Expression = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/;
+        return Expression.test(email) === true;
+    }
+
+    var transition;
+    function register() {
+        dialog.showModal();
+        transition = setTimeout(function() {
+            addClass(dialog,'dialog-scale');
+        }, 0.5);
+    }
+
+    function cancel_dialog() {
+        dialog.close();
+        removeClass(dialog,'dialog-scale');
+        clearTimeout(transition);
+    }
+
+    function confirm_register() {
+        var reg_user_val = reg_user.value;
+        var reg_pw_val = reg_pw.value;
+        var reg_pw2_val = reg_pw2.value;
+        var reg_email_val =reg_email.value;
+        var reg_name_val =reg_name.value;
+
+        if(reg_user_val === ""){
+            showToast("账号不能为空");
+            // alert("账号不能为空");
+            reg_user.focus()
+            return
+        }
+        if(reg_pw_val === ""){
+            showToast("密码不能为空");
+            // alert("密码不能为空");
+            reg_user.focus()
+            return
+        }
+        if(reg_pw2_val === ""){
+            showToast("请输入密码确保密码无误");
+            // alert("请输入密码确保密码无误");
+            reg_user.focus()
+            return
+        }
+        if(reg_email_val === ""){
+            showToast("邮箱不能为空");
+            // alert("邮箱不能为空");
+            reg_user.focus()
+            return
+        }
+        if(reg_name_val === ""){
+            showToast("名字不能为空");
+            // alert("名字不能为空");
+            reg_user.focus()
+            return
+        }
+
+        if(reg_pw_val !== reg_pw2_val){
+            showToast("两次输入的密码不一致");
+            // alert("两次输入的密码不一致");
+            return
+        }
+        if(!checkEmail(reg_email_val)){
+            showToast("邮箱地址格式不正确");
+            return
+        }
+        var param = "user=" + reg_user_val + "&password=" + reg_pw_val + "&email=" + reg_email_val + "&name=" + reg_name_val;
+        var url="register.jsp";
+        console.log(param);
+        //调用方法创建XMLHttpRequest对象
+        XmlHttpRequest2 = createXMLHttpRequest();
+        //设置回调函数
+        XmlHttpRequest2.onreadystatechange=register_finish;
+        //初始化xmlhttprequest
+        XmlHttpRequest2.open("POST",url,true);
+        XmlHttpRequest2.setRequestHeader("Content-Type",
+            "application/x-www-form-urlencoded");
+        //发送请求
+        XmlHttpRequest2.send(param);
+    }
+
+    const REG_FAIL = "0";
+    const REF_SUCC = "1";
+    // 注册回调函数
+    function register_finish() {
+        if(XmlHttpRequest2.readyState === 4 && (XmlHttpRequest2.status >= 200 && XmlHttpRequest2.status < 300 || XmlHttpRequest2.status >= 304)){
+            var result = XmlHttpRequest2.responseText;
+            console.log(result);
+            switch (result){
+                case REG_FAIL:
+                    showToast("注册失败!");
+                    break;
+                case REF_SUCC:
+                    showToast("注册成功~");
+                    cancel_dialog();
+                    break;
+            }
+        }
+    }
+
+</script>
 </html>
